@@ -5,6 +5,9 @@
 
 GamifyIQ ingests corporate documents (like codes of conduct, HIPAA policies, etc.) and uses AI to create engaging, interactive training games that improve employee learning and compliance.
 
+<img width="982" height="444" alt="image" src="https://github.com/user-attachments/assets/5745f88c-4e5a-4d03-a2df-e31049c51fd3" />
+
+
 ## 🏗️ Architecture
 
 This is a modular monorepo built with:
