@@ -8,7 +8,8 @@
       "Bash(yarn --version)",
       "Bash(npx create-next-app:*)",
       "Bash(rm:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(npx shadcn@latest add switch separator:*)"
     ],
     "deny": []
   }
