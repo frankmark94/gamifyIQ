@@ -1,0 +1,163 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  name        String
+  role        UserRole @default(EMPLOYEE)
+  isActive    Boolean  @default(true)
+  lastLoginAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  uploadedDocuments Document[]     @relation("DocumentUploader")
+  gameSessions      GameSession[]
+  
+  @@map("users")
+}
+
+model Document {
+  id           String         @id @default(cuid())
+  name         String
+  originalName String
+  content      String         @db.Text
+  fileSize     Int
+  mimeType     String
+  status       DocumentStatus @default(PROCESSING)
+  storageUrl   String
+  processedAt  DateTime?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  // Relations
+  uploadedById String
+  uploadedBy   User   @relation("DocumentUploader", fields: [uploadedById], references: [id])
+  games        Game[]
+
+  @@map("documents")
+}
+
+model Game {
+  id                String          @id @default(cuid())
+  title             String
+  description       String          @db.Text
+  status            GameStatus      @default(DRAFT)
+  difficulty        DifficultyLevel @default(MEDIUM)
+  totalPoints       Int             @default(0)
+  estimatedDuration Int             @default(0) // in minutes
+  averageScore      Float?
+  completionCount   Int             @default(0)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  // Relations
+  documentId String
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  scenarios  GameScenario[]
+  sessions   GameSession[]
+
+  @@map("games")
+}
+
+model GameScenario {
+  id            String          @id @default(cuid())
+  title         String
+  description   String          @db.Text
+  question      String          @db.Text
+  options       String[]        // Array of answer options
+  correctAnswer Int
+  explanation   String          @db.Text
+  points        Int             @default(100)
+  difficulty    DifficultyLevel @default(MEDIUM)
+  topic         String
+  order         Int             @default(0)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  // Relations
+  gameId  String
+  game    Game           @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  answers SessionAnswer[]
+
+  @@map("game_scenarios")
+}
+
+model GameSession {
+  id          String        @id @default(cuid())
+  status      SessionStatus @default(ACTIVE)
+  score       Int           @default(0)
+  maxScore    Int           @default(0)
+  startedAt   DateTime      @default(now())
+  completedAt DateTime?
+  timeSpent   Int           @default(0) // in seconds
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Relations
+  gameId String
+  game   Game   @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+  
+  answers SessionAnswer[]
+
+  @@map("game_sessions")
+}
+
+model SessionAnswer {
+  id             String   @id @default(cuid())
+  selectedAnswer Int
+  isCorrect      Boolean
+  points         Int      @default(0)
+  timeTaken      Int      @default(0) // in seconds
+  createdAt      DateTime @default(now())
+
+  // Relations
+  sessionId  String
+  session    GameSession  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  
+  scenarioId String
+  scenario   GameScenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
+
+  @@map("session_answers")
+}
+
+enum UserRole {
+  ADMIN
+  MANAGER
+  EMPLOYEE
+}
+
+enum DocumentStatus {
+  UPLOADING
+  PROCESSING
+  PROCESSED
+  FAILED
+}
+
+enum GameStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum SessionStatus {
+  ACTIVE
+  COMPLETED
+  ABANDONED
+}
+
+enum DifficultyLevel {
+  EASY
+  MEDIUM
+  HARD
+}
