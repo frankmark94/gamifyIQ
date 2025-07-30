@@ -8,11 +8,13 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\"",
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:web-next\"",
     "dev:web": "npm run dev --workspace=apps/web",
+    "dev:web-next": "npm run dev --workspace=apps/web-next",
     "dev:api": "npm run dev --workspace=apps/api",
     "build": "npm run build --workspaces",
     "build:web": "npm run build --workspace=apps/web",
+    "build:web-next": "npm run build --workspace=apps/web-next",
     "build:api": "npm run build --workspace=apps/api",
     "db:migrate": "npm run migrate --workspace=packages/db",
     "db:generate": "npm run generate --workspace=packages/db",

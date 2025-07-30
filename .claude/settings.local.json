@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(npm run install:all:*)",
+      "Bash(npm install)",
+      "Bash(npm:*)",
+      "Bash(yarn --version)",
+      "Bash(npx create-next-app:*)",
+      "Bash(rm:*)",
+      "Bash(node:*)"
     ],
     "deny": []
   }
