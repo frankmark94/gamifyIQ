@@ -1,4 +1,5 @@
-# GamifyIQ
+<img width="462" height="456" alt="image" src="https://github.com/user-attachments/assets/70da6de6-3bea-4aae-8686-db9a2d4e7ee0" />
+
 
 > GenAI-powered SaaS platform that transforms corporate documents into gamified training modules
 
