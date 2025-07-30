@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev:api\" \"npm run dev:web-next\"",
+    "dev": "npx concurrently \"npm run dev:api\" \"npm run dev:web-next\"",
     "dev:web": "npm run dev --workspace=apps/web",
     "dev:web-next": "npm run dev --workspace=apps/web-next",
     "dev:api": "npm run dev --workspace=apps/api",
