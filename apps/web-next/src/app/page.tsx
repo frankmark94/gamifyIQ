@@ -3,6 +3,7 @@ import { StatsCards } from "@/components/overview/stats-cards"
 import { RecentActivity } from "@/components/overview/recent-activity"
 import { QuickActions } from "@/components/overview/quick-actions"
 import { DocumentStatus } from "@/components/overview/document-status"
+import { AnalyticsCharts } from "@/components/overview/analytics-charts"
 
 export default function Home() {
   return (
@@ -17,6 +18,9 @@ export default function Home() {
         
         {/* Key Metrics */}
         <StatsCards />
+        
+        {/* Analytics Charts */}
+        <AnalyticsCharts />
         
         {/* Main content grid */}
         <div className="grid gap-6 lg:grid-cols-7">
